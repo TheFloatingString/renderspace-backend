@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <style>
+            .rsTitle{
+                /* text-align: center; */
+                font-size: x-large;
+            }
+        </style>
+        <script>
+            let userList = [];
+            function hello() {
+                console.log("helllo world.");
+                console.log(userList);
+            }
+            function addCamera() {
+                userList.push({"name":"camera"});
+                console.log(userList);
+            }
+            function addMotor() {
+                userList.push({"name":"motor"});
+                console.log(userList);
+            }
+            function addLinkage() {
+                userList.push({"name":"linkage"});
+                console.log(userList);
+            }
+            function submit() {
+                axios.post("/api/robot",{
+                    "data":userList
+                }).then(function(data){
+                    console.log(data);
+                })
+            }
+        </script>
+    </head>
+    <body>
+        <h1 class="rsTitle"">Welcome to RenderSpace</h1>
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addCamera();">Add Camera</button>
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addMotor();">Add Motor</button>        
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addLinkage();">Add Linkage</button>
+        <br/>
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="submit();">Submit</button>
+
+    </body>
+</html>

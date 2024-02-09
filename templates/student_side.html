@@ -3,10 +3,18 @@
     <head>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <style>
             .rsTitle{
                 /* text-align: center; */
                 font-size: x-large;
+            }
+            .rsMain{
+                padding-left: 3%;
+                padding-right: 3%;
+                padding-top: 3%;
+                padding-bottom: 3%;
             }
         </style>
         <script>
@@ -14,22 +22,32 @@
             function hello() {
                 console.log("helllo world.");
                 console.log(userList);
+                let inputVal = document.getElementById("robotNotes").value;
+                alert(inputVal);
             }
             function addCamera() {
                 userList.push({"name":"camera"});
+                document.getElementById("rsAssembly").innerHTML += "[camera]&rarr;"
                 console.log(userList);
             }
             function addMotor() {
                 userList.push({"name":"motor"});
+                document.getElementById("rsAssembly").innerHTML += "[motor]&rarr;"
                 console.log(userList);
             }
             function addLinkage() {
                 userList.push({"name":"linkage"});
+                document.getElementById("rsAssembly").innerHTML += "[linkage]&rarr;"
                 console.log(userList);
             }
             function submit() {
+                let userNotes = document.getElementById("robotNotes").value;
+                let robotName = document.getElementById("robotName").value;
+
                 axios.post("/api/robot",{
-                    "data":userList
+                    "data":userList,
+                    "name":robotName,
+                    "notes":userNotes
                 }).then(function(data){
                     console.log(data);
                 })
@@ -37,12 +55,27 @@
         </script>
     </head>
     <body>
-        <h1 class="rsTitle"">Welcome to RenderSpace</h1>
-        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addCamera();">Add Camera</button>
-        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addMotor();">Add Motor</button>        
-        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addLinkage();">Add Linkage</button>
-        <br/>
-        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="submit();">Submit</button>
-
+        <main class="rsMain">
+            <h1 class="rsTitle"">Welcome to RenderSpace</h1>
+            <br/>
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addCamera();">Add Camera</button>
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addMotor();">Add Motor</button>        
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="addLinkage();">Add Linkage</button>
+            <br/><br/>
+            <label class="font-bold">Live Assembly</label>
+            <div id="rsAssembly" class="bg-gray-200 rounded p-8">
+            </div>
+            <br/>
+            <br/>
+            <label class="font-bold">Name</label>
+            <input id="robotName" class="block w-full bg-gray-200 py-3 rounded">
+            <br/>
+            <br/>
+            <label class="font-bold">Notes</label>
+            <input id="robotNotes" class="block w-full bg-gray-200 py-20 rounded">
+            <br/>
+            <br/>
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onclick="submit();">Submit</button>    
+        </main>
     </body>
 </html>

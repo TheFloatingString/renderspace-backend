@@ -2,14 +2,56 @@
 <html>
     <head>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <style>
             .rsTitle{
                 /* text-align: center; */
                 font-size: x-large;
             }
+            .rsMain{
+                padding-left: 3%;
+                padding-right: 3%;
+                padding-top: 3%;
+                padding-bottom: 3%;
+            }
         </style>
+        <script>
+            function generateCard(name, assembly_str, notes, imgUrl) {
+                return `
+                <div class="card rounded w-full p-8 my-3 shadow-lg">
+                <img class="rounded; shadow-lg" style="width:256px" src="${imgUrl}" alt="Sunset in the mountains">
+                <label class="font-bold my-3">${name}</label>
+                <p>${assembly_str}</p>
+                <p>${notes}</p>
+                <button class="bg-blue-500 text-white font-bold py-1 px-4 my-2 rounded opacity-50 cursor-not-allowed">
+                    Contact
+                </button>
+                </div>
+                `
+            }
+            function getRobots() {
+                axios.get("/api/robots").then(function(data){
+                    LEN = data.data.data.assembly.length
+                    console.log(data.data);
+                    for (let i=0; i<LEN; i++){
+                        let name = data.data.data.name[i]
+                        let assembly = data.data.data.assembly[i]
+                        let notes = data.data.data.notes[i]
+                        let imgUrl = data.data.data.imageUri[i]
+                        document.getElementById("rsRobots").innerHTML += generateCard(name, assembly, notes, imgUrl);
+                    }
+                })
+            }
+            getRobots();
+        </script>
     </head>
     <body>
-        <h1 class="rsTitle"">Welcome to RenderSpace</h1>
+        <main class="rsMain">
+            <h1 class="rsTitle"">Welcome to RenderSpace</h1>
+            <div id="rsRobots">
+            </div>
+        </main>
     </body>
 </html>
